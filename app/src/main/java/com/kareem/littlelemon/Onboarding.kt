@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,12 +37,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
+import com.kareem.littlelemon.util.Constants
+import com.kareem.littlelemon.util.Home
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Onboarding() {
+fun Onboarding(navController: NavHostController) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -87,7 +92,7 @@ fun Onboarding() {
             ) {
                 Text(
                     text = "Personal information",
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.tertiary,
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp
@@ -126,9 +131,10 @@ fun Onboarding() {
                     label = {
                         Text(
                             text = "Email",
-                            style = MaterialTheme.typography.bodyLarge
                         )
-                    }
+                    },
+
+
                 )
                 Spacer(modifier = Modifier.height(80.dp))
 
@@ -154,6 +160,9 @@ fun Onboarding() {
                                     "Registration completed!",
                                     Toast.LENGTH_SHORT
                                 ).show()
+
+                                navController.navigate(Home.route)
+
 
                             }
                         },
@@ -181,7 +190,8 @@ fun Onboarding() {
 @Preview(showBackground = true)
 @Composable
 fun OnboardingPreview() {
-    Onboarding()
+    val navController = rememberNavController()
+    Onboarding(navController)
 }
 
 fun sharedPreferences(context: Context, firstName: String, lastName: String, email: String) {

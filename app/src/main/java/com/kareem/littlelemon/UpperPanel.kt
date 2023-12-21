@@ -22,20 +22,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kareem.littlelemon.ui.theme.PrimaryGreen
+import com.kareem.littlelemon.ui.theme.PrimaryYellow
 
 @Composable
 fun UpperPanel(){
     val context = LocalContext.current
     Column(
         modifier = Modifier
-            .background(Color(0xFF495E57))
+            .background(PrimaryGreen)
             .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp)
     ) {
         Text(
             text = stringResource(id = R.string.title),
             fontSize = 40.sp,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFFF4CE14)
+            color = PrimaryYellow
         )
         Text(
             text = stringResource(id = R.string.location),
