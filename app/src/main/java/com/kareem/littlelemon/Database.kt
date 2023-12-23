@@ -15,7 +15,8 @@ data class MenuItemRoom(
     val title: String,
     val price: Double,
     val category: String,
-    val image : String
+    val image: String,
+    val description: String
 )
 
 @Dao

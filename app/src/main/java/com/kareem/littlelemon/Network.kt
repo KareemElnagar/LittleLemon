@@ -1,5 +1,6 @@
 package com.kareem.littlelemon
 
+import android.accounts.AuthenticatorDescription
 import androidx.room.Entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -19,7 +20,8 @@ data class MenuItemNetwork(
     @SerialName("price")
     val price : Double,
     val category: String,
-    val image : String
+    val image : String,
+    val description: String
 ) {
     fun toMenuItemRoom() = MenuItemRoom(
         id,
@@ -27,5 +29,6 @@ data class MenuItemNetwork(
         price,
         category,
         image,
+        description
     )
 }
