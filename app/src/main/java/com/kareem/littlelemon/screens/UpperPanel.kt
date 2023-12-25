@@ -1,7 +1,5 @@
-package com.kareem.littlelemon
+package com.kareem.littlelemon.screens
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -9,10 +7,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+
+import androidx.compose.material3.TextField
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,13 +28,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.room.Room
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.kareem.littlelemon.R
 import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
+import com.kareem.littlelemon.ui.theme.Shapes
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UpperPanel() {
+fun UpperPanel(navController: NavController) {
     val context = LocalContext.current
+//    val vm: MenuViewModel = viewModel()
+//    val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
+    var searchPhrase = remember {
+        mutableStateOf("")
+    }
+//    LaunchedEffect(Unit){
+//        vm.fetchMenuIfNeeded()
+//    }
     Column(
         modifier = Modifier
             .background(PrimaryGreen)
@@ -67,23 +81,25 @@ fun UpperPanel() {
                 modifier = Modifier.clip(RoundedCornerShape(20.dp))
             )
         }
-        Button(
-            onClick = { Toast.makeText(context,"Order received", Toast.LENGTH_SHORT).show()},
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFFF4CE14))
-        ) {
-            Text(
-                text = stringResource(id = R.string.orderbuttontext),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF333333)
-            )
-        }
+
+        TextField(
+            value = searchPhrase.value,
+            onValueChange = { searchPhrase.value = it },
+            placeholder = { Text(text = "Search Item") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            shape = Shapes.large,
+            leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") }
+
+        )
+
+
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun UpperPanelPreview() {
-    UpperPanel()
+    UpperPanel(rememberNavController())
 }

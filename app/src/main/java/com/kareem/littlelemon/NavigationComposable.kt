@@ -5,6 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.kareem.littlelemon.screens.Home
+import com.kareem.littlelemon.screens.Onboarding
+import com.kareem.littlelemon.screens.Profile
 import com.kareem.littlelemon.util.Constants
 import com.kareem.littlelemon.util.Home
 import com.kareem.littlelemon.util.Onboarding

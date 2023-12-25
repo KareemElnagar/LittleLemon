@@ -1,26 +1,25 @@
 package com.kareem.littlelemon
 
-import android.accounts.AuthenticatorDescription
-import androidx.room.Entity
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class MenuNetwork(
     @SerialName("menu")
-    val menu : List<MenuItemNetwork>
+    val menu: List<MenuItemNetwork>
 )
 
 @Serializable
 data class MenuItemNetwork(
     @SerialName("id")
-    val id : Int,
+    val id: Int,
     @SerialName("title")
-    val title : String,
+    val title: String,
     @SerialName("price")
-    val price : Double,
+    val price: Double,
     val category: String,
-    val image : String,
+    val image: String,
     val description: String
 ) {
     fun toMenuItemRoom() = MenuItemRoom(
