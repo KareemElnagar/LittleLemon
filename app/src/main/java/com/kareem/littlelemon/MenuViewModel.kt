@@ -1,5 +1,8 @@
 package com.kareem.littlelemon
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,6 +21,15 @@ import kotlinx.coroutines.launch
 
 class MenuViewModel : ViewModel() {
 
+   // Filtering dishes by categories
+    private val categoryList = listOf("All","Starters", "Mains", "Dessert", "Drinks")
+    fun getCategoryList() = categoryList
+    var selected by mutableStateOf(categoryList[0])
+
+
+
+
+
     //Network client
     private val httpClient = HttpClient(Android) {
         install(ContentNegotiation) {
@@ -27,7 +39,11 @@ class MenuViewModel : ViewModel() {
     }
 
     // Database Build
-    private val database: AppDatabase = Room.databaseBuilder(LittleLemonApplication.getApplicationContext(), AppDatabase::class.java, "database").build()
+    private val database: AppDatabase = Room.databaseBuilder(
+        LittleLemonApplication.getApplicationContext(),
+        AppDatabase::class.java,
+        "database"
+    ).build()
 
     //return menu form database
     fun getAllDatabaseMenuItems(): LiveData<List<MenuItemRoom>> {

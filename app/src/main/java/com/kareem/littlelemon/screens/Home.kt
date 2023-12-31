@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
@@ -30,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -51,7 +54,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.kareem.littlelemon.MenuItemDao
 import com.kareem.littlelemon.MenuItemRoom
 import com.kareem.littlelemon.MenuViewModel
 import com.kareem.littlelemon.R
@@ -59,7 +61,6 @@ import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
 import com.kareem.littlelemon.ui.theme.Shapes
 import com.kareem.littlelemon.util.Profile
-import java.util.Locale.Category
 
 
 @Composable
@@ -104,11 +105,11 @@ fun Header(navController: NavHostController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage() {
     val vm: MenuViewModel = viewModel()
     val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
+    val categories = vm.getCategoryList()
     val searchPhrase = remember {
         mutableStateOf("")
     }
@@ -120,7 +121,25 @@ fun HomePage() {
         }
     })
 
+    UpperPanel(searchPhrase = searchPhrase)
+    val filteredMenuItems = if (searchPhrase.value.isBlank()) {
+        databaseMenuItem
+    } else {
+        databaseMenuItem.filter { menuItem ->
+            menuItem.title.contains(searchPhrase.value, ignoreCase = true)
+        }
+    }
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = "ORDER FOR DELIVERY!", style = MaterialTheme.typography.headlineLarge)
+    }
+    MyFilters(categories)
 
+    MenuItems(menuList = filteredMenuItems)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun UpperPanel(searchPhrase: MutableState<String>) {
     Column(
         modifier = Modifier
             .background(PrimaryGreen)
@@ -169,18 +188,44 @@ fun HomePage() {
         )
 
     }
-    val filteredMenuItems = if (searchPhrase.value.isBlank()) {
-        databaseMenuItem
-    } else {
-        databaseMenuItem.filter { menuItem ->
-            menuItem.title.contains(searchPhrase.value, ignoreCase = true)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MyFilters(listOfCategories: List<String>,onClick:() -> Unit = {}) {
+
+
+    var selected by remember { mutableStateOf(listOfCategories[0]) }
+
+    LazyRow(modifier = Modifier.fillMaxWidth()) {
+        items(listOfCategories) { item ->
+            FilterChip(
+                modifier = Modifier
+                    .padding(horizontal = 6.dp)
+                    .clickable { onClick() },
+                selected = (item == selected),
+                onClick = {
+                    selected = item
+                },
+                label = {
+                    Text(text = item)
+                },
+                leadingIcon = if (item == selected) {
+                    {
+                        Icon(
+                            imageVector = Icons.Default.Done,
+                            contentDescription = null,
+                            modifier = Modifier.size(
+                                FilterChipDefaults.IconSize
+                            )
+                        )
+                    }
+                } else {
+                    null
+                }
+            )
         }
     }
-    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(text = "ORDER FOR DELIVERY !", style = MaterialTheme.typography.headlineLarge)
-
-    }
-    MenuItems(menuList = filteredMenuItems)
 }
 
 
