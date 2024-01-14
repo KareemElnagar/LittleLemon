@@ -55,7 +55,7 @@ class MenuViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             if (database.menuItemDao().isEmpty()) {
                 val url =
-                    "https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/menu.json"
+                    "https://raw.githubusercontent.com/KareemElnagar/Working-With-Data-API/main/menu.json"
                 val menuItemsNetwork = fetchMenu(url)
                 saveMenuToDatabase(database, menuItemsNetwork)
             }
