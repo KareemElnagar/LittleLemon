@@ -65,7 +65,6 @@ import com.kareem.littlelemon.util.Profile
 @Composable
 fun Home(navController: NavHostController) {
     Column {
-        Header(navController)
         HomePage()
     }
 
