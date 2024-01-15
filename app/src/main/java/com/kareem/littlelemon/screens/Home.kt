@@ -130,7 +130,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
     Column(
         modifier = Modifier
             .background(PrimaryGreen)
-            .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp)
+            .padding(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 5.dp)
     ) {
         Text(
             text = stringResource(id = R.string.title),
@@ -152,7 +152,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
                 color = Color(0xFFEDEFEE),
                 fontSize = 18.sp,
                 modifier = Modifier
-                    .padding(bottom = 28.dp)
+                    .padding(bottom = 8.dp)
                     .fillMaxWidth(0.6f)
             )
             Image(
@@ -168,9 +168,10 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
             placeholder = { Text(text = "Search Item") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(start = 8.dp, end = 8.dp),
             shape = Shapes.large,
-            leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") }
+            leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
+
 
         )
 
