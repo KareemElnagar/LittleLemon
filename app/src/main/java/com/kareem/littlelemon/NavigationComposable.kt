@@ -5,12 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.kareem.littlelemon.screens.DishDetails
 import com.kareem.littlelemon.screens.Home
 import com.kareem.littlelemon.screens.MenuScreen
 import com.kareem.littlelemon.screens.Onboarding
 import com.kareem.littlelemon.screens.Orders
 import com.kareem.littlelemon.screens.Profile
 import com.kareem.littlelemon.util.Constants
+import com.kareem.littlelemon.util.DishDetails
 import com.kareem.littlelemon.util.Home
 import com.kareem.littlelemon.util.MenuScreen
 import com.kareem.littlelemon.util.Onboarding
@@ -36,6 +38,9 @@ fun NavigationComposable(context: Context, navController: NavHostController) {
         }
         composable(Orders.route){
             Orders(navController)
+        }
+        composable(DishDetails.route){
+            DishDetails(navController)
         }
 
 

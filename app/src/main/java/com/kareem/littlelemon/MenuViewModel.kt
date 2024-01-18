@@ -26,6 +26,8 @@ class MenuViewModel : ViewModel() {
     fun getCategoryList() = categoryList
     var selected by mutableStateOf(categoryList[0])
 
+    var selectedDish by mutableStateOf(1)
+
 
 
 

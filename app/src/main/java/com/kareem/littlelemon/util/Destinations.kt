@@ -21,3 +21,6 @@ object MenuScreen : Destinations {
 object Orders : Destinations {
     override val route = "Orders"
 }
+object DishDetails : Destinations {
+    override val route = "DishDetails"
+}

@@ -171,9 +171,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
             shape = Shapes.large,
             leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
 
-
-        )
-
+            )
     }
 }
 
@@ -239,7 +237,7 @@ fun MyCategoryButton(category: String, selectedCategory: (selected: String) -> U
             containerColor = HighlightGray
         ),
         leadingIcon = {
-            if (selected){
+            if (selected) {
                 Icon(
                     imageVector = Icons.Default.Done,
                     contentDescription = null,
@@ -290,7 +288,11 @@ fun MenuItems(menuList: List<MenuItemRoom>) {
     LazyColumn(Modifier.fillMaxHeight()) {
         item {
             for (menuItem in menuList) {
-                MenuItem(itemRoom = menuItem)
+                MenuItem(
+                    itemRoom = menuItem,
+                    onClick = {
+
+                    })
             }
         }
 
@@ -300,14 +302,17 @@ fun MenuItems(menuList: List<MenuItemRoom>) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MenuItem(itemRoom: MenuItemRoom) {
+fun MenuItem(itemRoom: MenuItemRoom, onClick: () -> Unit) {
     Spacer(modifier = Modifier.width(8.dp))
     Divider(color = Color.Gray, thickness = 1.dp)
     Card(colors = CardDefaults.cardColors(Color.White)) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
+                .clickable {
+                    onClick
+                },
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Column {

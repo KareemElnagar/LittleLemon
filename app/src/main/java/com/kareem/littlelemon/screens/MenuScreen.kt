@@ -24,11 +24,13 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.kareem.littlelemon.MenuItemRoom
 import com.kareem.littlelemon.MenuViewModel
+import com.kareem.littlelemon.util.DishDetails
 
 @Composable
 fun MenuScreen(navController: NavHostController) {
     val vm: MenuViewModel = viewModel()
     val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
+    var dishState = vm.selectedDish
 
     LaunchedEffect(key1 = "Fetching_menu", block = {
         try {
@@ -39,7 +41,12 @@ fun MenuScreen(navController: NavHostController) {
     })
     Column(Modifier.fillMaxSize()) {
 
-        MenuGrid(databaseMenuItem = databaseMenuItem)
+        MenuGrid(
+            databaseMenuItem = databaseMenuItem) {
+            dishState = it
+            navController.navigate(DishDetails.route)
+
+        }
     }
 
 
@@ -47,7 +54,7 @@ fun MenuScreen(navController: NavHostController) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MenuGrid(databaseMenuItem: List<MenuItemRoom>) {
+fun MenuGrid(databaseMenuItem: List<MenuItemRoom>, startDishDetails: (Int) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(16.dp),
@@ -59,7 +66,7 @@ fun MenuGrid(databaseMenuItem: List<MenuItemRoom>) {
                 Modifier
                     .fillMaxWidth()
                     .clickable {
-
+                        startDishDetails(it.id)
                     }, horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 GlideImage(

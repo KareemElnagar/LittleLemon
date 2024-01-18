@@ -60,7 +60,7 @@ fun BottomNavigation(navController: NavController) {
             hasNews = true
         )
     )
-    NavigationBar(modifier = Modifier.height(65.dp)) {
+    NavigationBar(modifier = Modifier.height(75.dp)) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = selectedItemIndex == index,
@@ -69,13 +69,13 @@ fun BottomNavigation(navController: NavController) {
                     navController.navigate(item.title)
 
                 },
-                alwaysShowLabel = false,
+                alwaysShowLabel = true,
                 label = { Text(text = item.title) },
                 icon = {
                     BadgedBox(
                         badge = {
                             if (item.badgeCount != null) {
-                                Badge() {
+                                Badge {
                                     Text(text = item.badgeCount.toString())
                                 }
                             } else if (item.hasNews) {
