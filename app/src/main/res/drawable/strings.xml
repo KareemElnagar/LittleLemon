@@ -3,7 +3,7 @@
     <string android:name="app_name"
         tools:ignore="ExtraText">LittleLemon</string>
     <string android:name="title">Little Lemon</string>
-    <string android:name="location">Chicago</string>
+    <string android:name="location">Cairo</string>
     <string android:name="description">We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</string>
     <string android:name="orderbuttontext">Order Take Away</string>
 </resources>

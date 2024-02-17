@@ -65,7 +65,6 @@ import com.kareem.littlelemon.util.Profile
 @Composable
 fun Home(navController: NavHostController) {
     Column {
-        Header(navController)
         HomePage()
     }
 
@@ -130,7 +129,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
     Column(
         modifier = Modifier
             .background(PrimaryGreen)
-            .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 16.dp)
+            .padding(start = 12.dp, end = 12.dp, top = 8.dp, bottom = 5.dp)
     ) {
         Text(
             text = stringResource(id = R.string.title),
@@ -152,7 +151,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
                 color = Color(0xFFEDEFEE),
                 fontSize = 18.sp,
                 modifier = Modifier
-                    .padding(bottom = 28.dp)
+                    .padding(bottom = 8.dp)
                     .fillMaxWidth(0.6f)
             )
             Image(
@@ -168,12 +167,11 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
             placeholder = { Text(text = "Search Item") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(start = 8.dp, end = 8.dp),
             shape = Shapes.large,
-            leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") }
+            leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
 
-        )
-
+            )
     }
 }
 
@@ -239,7 +237,7 @@ fun MyCategoryButton(category: String, selectedCategory: (selected: String) -> U
             containerColor = HighlightGray
         ),
         leadingIcon = {
-            if (selected){
+            if (selected) {
                 Icon(
                     imageVector = Icons.Default.Done,
                     contentDescription = null,
@@ -290,7 +288,11 @@ fun MenuItems(menuList: List<MenuItemRoom>) {
     LazyColumn(Modifier.fillMaxHeight()) {
         item {
             for (menuItem in menuList) {
-                MenuItem(itemRoom = menuItem)
+                MenuItem(
+                    itemRoom = menuItem,
+                    onClick = {
+
+                    })
             }
         }
 
@@ -300,14 +302,17 @@ fun MenuItems(menuList: List<MenuItemRoom>) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MenuItem(itemRoom: MenuItemRoom) {
+fun MenuItem(itemRoom: MenuItemRoom, onClick: () -> Unit) {
     Spacer(modifier = Modifier.width(8.dp))
     Divider(color = Color.Gray, thickness = 1.dp)
     Card(colors = CardDefaults.cardColors(Color.White)) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding(8.dp)
+                .clickable {
+                    onClick
+                },
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Column {
