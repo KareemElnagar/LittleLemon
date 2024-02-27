@@ -1,4 +1,4 @@
-package com.kareem.littlelemon
+package com.kareem.littlelemon.composables
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons

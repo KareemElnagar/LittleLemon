@@ -1,4 +1,4 @@
-package com.kareem.littlelemon
+package com.kareem.littlelemon.composables
 
 import android.content.Context
 import androidx.compose.runtime.Composable

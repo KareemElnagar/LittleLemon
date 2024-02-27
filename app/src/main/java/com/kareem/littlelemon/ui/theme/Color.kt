@@ -17,4 +17,5 @@ val Secondary1 = Color(0xffee9972)
 val Secondary2 = Color(0xfffbdabb)
 
 val HighlightGray = Color(0xffedefee)
+val Smoke = Color(0xFFE6E6E6)
 val HighlightBlack = Color(0xff333333)

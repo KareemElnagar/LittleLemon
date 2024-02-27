@@ -24,6 +24,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.kareem.littlelemon.MenuItemRoom
 import com.kareem.littlelemon.MenuViewModel
+import com.kareem.littlelemon.composables.ChipGroup
 import com.kareem.littlelemon.util.DishDetails
 
 @Composable
@@ -41,6 +42,9 @@ fun MenuScreen(navController: NavHostController) {
     })
     Column(Modifier.fillMaxSize()) {
 
+        ChipGroup(databaseMenuItem = databaseMenuItem){
+
+        }
         MenuGrid(
             databaseMenuItem = databaseMenuItem) {
             dishState = it

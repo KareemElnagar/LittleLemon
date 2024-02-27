@@ -3,7 +3,6 @@ package com.kareem.littlelemon.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,18 +13,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -33,11 +28,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,7 +48,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.kareem.littlelemon.MenuItemRoom
 import com.kareem.littlelemon.MenuViewModel
 import com.kareem.littlelemon.R
-import com.kareem.littlelemon.ui.theme.HighlightGray
+import com.kareem.littlelemon.composables.ChipGroup
 import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
 import com.kareem.littlelemon.ui.theme.Shapes
@@ -156,7 +149,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
             )
             Image(
                 painter = painterResource(id = R.drawable.upperpanelimage),
-                contentDescription = "Upper Panel Image",
+                contentDescription = "",
                 modifier = Modifier.clip(RoundedCornerShape(20.dp))
             )
         }
@@ -169,7 +162,12 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp),
             shape = Shapes.large,
-            leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search"
+                )
+            },
 
             )
     }
@@ -178,12 +176,6 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
 
 @Composable
 fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<String>) {
-    val categories = databaseMenuItem.map {
-        it.category.replaceFirstChar { char ->
-            char.uppercase()
-        }
-    }.toSet()
-
     val selectedCategory = remember {
         mutableStateOf("")
     }
@@ -208,7 +200,7 @@ fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "ORDER FOR DELIVERY!", style = MaterialTheme.typography.headlineLarge)
 
-        MenuCategories(categories = categories) {
+        ChipGroup(databaseMenuItem = databaseMenuItem) {
             selectedCategory.value = it
         }
         MenuItems(menuList = filteredItems)
@@ -216,67 +208,6 @@ fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<
 
 
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun MyCategoryButton(category: String, selectedCategory: (selected: String) -> Unit) {
-    var selected by remember {
-        mutableStateOf(false)
-    }
-    FilterChip(
-        selected = selected,
-        onClick = {
-            selected = !selected
-            selectedCategory(category)
-        },
-        label = {
-            Text(text = category)
-        },
-        colors = FilterChipDefaults.filterChipColors(
-            labelColor = PrimaryGreen,
-            containerColor = HighlightGray
-        ),
-        leadingIcon = {
-            if (selected) {
-                Icon(
-                    imageVector = Icons.Default.Done,
-                    contentDescription = null,
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-                )
-            }
-        }
-    )
-}
-
-
-@Composable
-fun MenuCategories(categories: Set<String>, categoryLambda: (selected: String) -> Unit) {
-    val cat = remember {
-        mutableStateOf("")
-    }
-
-
-    Row(
-        modifier = Modifier
-            .horizontalScroll(rememberScrollState())
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        MyCategoryButton(category = "All") {
-            cat.value = it.lowercase()
-            categoryLambda(it.lowercase())
-        }
-        for (category in categories) {
-            MyCategoryButton(category = category) {
-                cat.value = it
-                categoryLambda(it)
-            }
-
-        }
-
-    }
-}
-
 
 @Composable
 fun MenuItems(menuList: List<MenuItemRoom>) {

@@ -13,6 +13,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.kareem.littlelemon.composables.BottomNavigation
+import com.kareem.littlelemon.composables.NavigationComposable
 import com.kareem.littlelemon.ui.theme.LittleLemonTheme
 
 class MainActivity : ComponentActivity() {
