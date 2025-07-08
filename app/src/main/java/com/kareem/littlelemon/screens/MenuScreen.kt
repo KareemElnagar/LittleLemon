@@ -42,10 +42,10 @@ fun MenuScreen(navController: NavHostController) {
     Column(Modifier.fillMaxSize()) {
 
         MenuGrid(
-            databaseMenuItem = databaseMenuItem) {
-            dishState = it
-            navController.navigate(DishDetails.route)
-
+            databaseMenuItem = databaseMenuItem
+        ) { dishId ->
+            dishState = dishId
+            navController.navigate("${DishDetails.route}/$dishId")
         }
     }
 

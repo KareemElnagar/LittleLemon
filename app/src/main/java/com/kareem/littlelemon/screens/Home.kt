@@ -65,7 +65,7 @@ import com.kareem.littlelemon.util.Profile
 @Composable
 fun Home(navController: NavHostController) {
     Column {
-        HomePage()
+        HomePage(navController)
     }
 
 }
@@ -104,7 +104,7 @@ fun Header(navController: NavHostController) {
 }
 
 @Composable
-fun HomePage() {
+fun HomePage(navController: NavHostController) {
     val vm: MenuViewModel = viewModel()
     val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
     val searchPhrase = remember {
@@ -119,7 +119,7 @@ fun HomePage() {
     })
 
     UpperPanel(searchPhrase = searchPhrase)
-    LowerPanel(databaseMenuItem = databaseMenuItem, searchPhrase = searchPhrase)
+    LowerPanel(databaseMenuItem = databaseMenuItem, searchPhrase = searchPhrase, navController = navController)
 
 }
 
@@ -177,7 +177,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
 
 
 @Composable
-fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<String>) {
+fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<String>, navController: NavHostController) {
     val categories = databaseMenuItem.map {
         it.category.replaceFirstChar { char ->
             char.uppercase()
@@ -211,7 +211,7 @@ fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<
         MenuCategories(categories = categories) {
             selectedCategory.value = it
         }
-        MenuItems(menuList = filteredItems)
+        MenuItems(menuList = filteredItems, navController = navController)
     }
 
 
@@ -279,7 +279,9 @@ fun MenuCategories(categories: Set<String>, categoryLambda: (selected: String) -
 
 
 @Composable
-fun MenuItems(menuList: List<MenuItemRoom>) {
+fun MenuItems(menuList: List<MenuItemRoom>, navController: NavHostController) {
+    val vm: MenuViewModel = viewModel()
+    
     Spacer(
         modifier = Modifier
             .width(20.dp)
@@ -291,7 +293,8 @@ fun MenuItems(menuList: List<MenuItemRoom>) {
                 MenuItem(
                     itemRoom = menuItem,
                     onClick = {
-
+                        vm.selectedDish = menuItem.id
+                        navController.navigate(com.kareem.littlelemon.util.DishDetails.route)
                     })
             }
         }

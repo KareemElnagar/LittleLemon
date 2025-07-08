@@ -26,7 +26,7 @@ class MenuViewModel : ViewModel() {
     fun getCategoryList() = categoryList
     var selected by mutableStateOf(categoryList[0])
 
-    var selectedDish by mutableStateOf(1)
+    var selectedDish by mutableStateOf(0)
 
 
 
@@ -49,6 +49,7 @@ class MenuViewModel : ViewModel() {
 
     //return menu form database
     fun getAllDatabaseMenuItems(): LiveData<List<MenuItemRoom>> {
+        println("FETCHING MENU FROM DAO")
         return database.menuItemDao().getAll()
     }
 
@@ -59,6 +60,7 @@ class MenuViewModel : ViewModel() {
                 val url =
                     "https://raw.githubusercontent.com/KareemElnagar/Working-With-Data-API/main/menu.json"
                 val menuItemsNetwork = fetchMenu(url)
+                println("FETCHING MENU FROM NETWORK URL : $url")
                 saveMenuToDatabase(database, menuItemsNetwork)
             }
         }

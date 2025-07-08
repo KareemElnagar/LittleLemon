@@ -39,12 +39,10 @@ fun NavigationComposable(context: Context, navController: NavHostController) {
         composable(Orders.route){
             Orders(navController)
         }
-        composable(DishDetails.route){
-            DishDetails(navController)
+        composable("${DishDetails.route}/{dishId}") { backStackEntry ->
+            val dishId = backStackEntry.arguments?.getString("dishId")?.toIntOrNull()
+            DishDetails(navController,dishId)
         }
-
-
-
     }
 }
 
