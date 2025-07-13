@@ -28,6 +28,13 @@ class MenuViewModel : ViewModel() {
 
     var selectedDish by mutableStateOf(0)
 
+    private var cart by mutableStateOf(listOf<MenuItemRoom>())
+
+    fun addToCart(item: MenuItemRoom)  {
+        cart = cart + item // creates a new list -> triggers recomposition
+    }
+
+    fun getCartItems(): List<MenuItemRoom> = cart
 
 
 

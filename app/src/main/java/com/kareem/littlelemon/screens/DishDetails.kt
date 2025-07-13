@@ -1,5 +1,6 @@
 package com.kareem.littlelemon.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,10 +37,9 @@ import com.kareem.littlelemon.MenuViewModel
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun DishDetails(navController: NavHostController, dishId:Int?) {
+fun DishDetails(navController: NavHostController, dishId:Int?, sharedMenuViewModel: MenuViewModel) {
 
-    val vm: MenuViewModel = viewModel()
-    val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
+    val databaseMenuItem = sharedMenuViewModel.getAllDatabaseMenuItems().observeAsState(emptyList()).value
     val selectedDish = databaseMenuItem.find { it.id == dishId }
     
     Column(
@@ -131,7 +131,10 @@ fun DishDetails(navController: NavHostController, dishId:Int?) {
                     
                     Button(
                         onClick = { 
-                            // TODO: Add to cart functionality
+                            selectedDish.let { sharedMenuViewModel.addToCart(it) }
+                            Log.e("item added to cart"," $selectedDish")
+                            Log.e("LOLL","${sharedMenuViewModel.getCartItems()}")
+
                         },
                         modifier = Modifier.padding(start = 16.dp)
                     ) {
@@ -153,39 +156,28 @@ fun DishDetails(navController: NavHostController, dishId:Int?) {
                     ) {
                         Text(
                             text = "Category",
-                            style = MaterialTheme.typography.labelMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = selectedDish.category.replaceFirstChar { it.uppercase() },
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.Medium
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
             }
         } else {
-            // Dish not found
+            // Show error state if dish not found
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Dish Not Found",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
+                    text = "Dish not found",
+                    style = MaterialTheme.typography.headlineMedium
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "The requested dish is not available",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                Button(onClick = { navController.popBackStack() }) {
-                    Text(text = "Go Back")
-                }
             }
         }
     }

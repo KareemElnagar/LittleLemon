@@ -29,10 +29,13 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation(navController: NavController) {
+fun BottomNavigation(navController: NavController, sharedMenuViewModel: MenuViewModel) {
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
+    val cartItems = sharedMenuViewModel.getCartItems()
+    val cartCount = cartItems.size
+    
     val items = listOf(
         BottomNavigationItem(
             title = "Home",
@@ -50,8 +53,8 @@ fun BottomNavigation(navController: NavController) {
             title = "Orders",
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
-            hasNews = true,
-            badgeCount = 5
+            hasNews = cartCount > 0,
+            badgeCount = if (cartCount > 0) cartCount else null
         ),
         BottomNavigationItem(
             title = "Profile",

@@ -20,12 +20,12 @@ import com.kareem.littlelemon.util.Orders
 import com.kareem.littlelemon.util.Profile
 
 @Composable
-fun NavigationComposable(context: Context, navController: NavHostController) {
+fun NavigationComposable(context: Context, navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
     NavHost(navController = navController,
         startDestination = determineDestination(context)
     ) {
         composable(Home.route){
-            Home(navController)
+            Home(navController, sharedMenuViewModel)
         }
         composable(Profile.route){
             Profile(navController)
@@ -34,14 +34,14 @@ fun NavigationComposable(context: Context, navController: NavHostController) {
             Onboarding(navController)
         }
         composable(MenuScreen.route){
-            MenuScreen(navController)
+            MenuScreen(navController, sharedMenuViewModel)
         }
         composable(Orders.route){
-            Orders(navController)
+            Orders(navController, sharedMenuViewModel)
         }
         composable("${DishDetails.route}/{dishId}") { backStackEntry ->
             val dishId = backStackEntry.arguments?.getString("dishId")?.toIntOrNull()
-            DishDetails(navController,dishId)
+            DishDetails(navController, dishId, sharedMenuViewModel)
         }
     }
 }

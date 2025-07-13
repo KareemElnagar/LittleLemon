@@ -27,14 +27,13 @@ import com.kareem.littlelemon.MenuViewModel
 import com.kareem.littlelemon.util.DishDetails
 
 @Composable
-fun MenuScreen(navController: NavHostController) {
-    val vm: MenuViewModel = viewModel()
-    val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
-    var dishState = vm.selectedDish
+fun MenuScreen(navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
+    val databaseMenuItem = sharedMenuViewModel.getAllDatabaseMenuItems().observeAsState(emptyList()).value
+    var dishState = sharedMenuViewModel.selectedDish
 
     LaunchedEffect(key1 = "Fetching_menu", block = {
         try {
-            vm.fetchMenuIfNeeded()
+            sharedMenuViewModel.fetchMenuIfNeeded()
         } catch (e: Exception) {
             e.printStackTrace()
         }

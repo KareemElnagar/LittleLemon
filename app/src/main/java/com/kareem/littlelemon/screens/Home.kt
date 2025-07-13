@@ -63,9 +63,9 @@ import com.kareem.littlelemon.util.Profile
 
 
 @Composable
-fun Home(navController: NavHostController) {
+fun Home(navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
     Column {
-        HomePage(navController)
+        HomePage(navController, sharedMenuViewModel)
     }
 
 }
@@ -104,22 +104,21 @@ fun Header(navController: NavHostController) {
 }
 
 @Composable
-fun HomePage(navController: NavHostController) {
-    val vm: MenuViewModel = viewModel()
-    val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
+fun HomePage(navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
+    val databaseMenuItem = sharedMenuViewModel.getAllDatabaseMenuItems().observeAsState(emptyList()).value
     val searchPhrase = remember {
         mutableStateOf("")
     }
     LaunchedEffect(key1 = "Fetching_menu", block = {
         try {
-            vm.fetchMenuIfNeeded()
+            sharedMenuViewModel.fetchMenuIfNeeded()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     })
 
     UpperPanel(searchPhrase = searchPhrase)
-    LowerPanel(databaseMenuItem = databaseMenuItem, searchPhrase = searchPhrase, navController = navController)
+    LowerPanel(databaseMenuItem = databaseMenuItem, searchPhrase = searchPhrase, navController = navController, sharedMenuViewModel = sharedMenuViewModel)
 
 }
 
@@ -177,7 +176,7 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
 
 
 @Composable
-fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<String>, navController: NavHostController) {
+fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<String>, navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
     val categories = databaseMenuItem.map {
         it.category.replaceFirstChar { char ->
             char.uppercase()
@@ -211,7 +210,7 @@ fun LowerPanel(databaseMenuItem: List<MenuItemRoom>, searchPhrase: MutableState<
         MenuCategories(categories = categories) {
             selectedCategory.value = it
         }
-        MenuItems(menuList = filteredItems, navController = navController)
+        MenuItems(menuList = filteredItems, navController = navController, sharedMenuViewModel = sharedMenuViewModel)
     }
 
 
@@ -279,8 +278,7 @@ fun MenuCategories(categories: Set<String>, categoryLambda: (selected: String) -
 
 
 @Composable
-fun MenuItems(menuList: List<MenuItemRoom>, navController: NavHostController) {
-    val vm: MenuViewModel = viewModel()
+fun MenuItems(menuList: List<MenuItemRoom>, navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
     
     Spacer(
         modifier = Modifier
@@ -293,8 +291,8 @@ fun MenuItems(menuList: List<MenuItemRoom>, navController: NavHostController) {
                 MenuItem(
                     itemRoom = menuItem,
                     onClick = {
-                        vm.selectedDish = menuItem.id
-                        navController.navigate(com.kareem.littlelemon.util.DishDetails.route)
+                         sharedMenuViewModel.selectedDish = menuItem.id
+                        navController.navigate("${com.kareem.littlelemon.util.DishDetails.route}/${menuItem.id}")
                     })
             }
         }
@@ -305,7 +303,7 @@ fun MenuItems(menuList: List<MenuItemRoom>, navController: NavHostController) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MenuItem(itemRoom: MenuItemRoom, onClick: () -> Unit) {
+fun MenuItem(itemRoom: MenuItemRoom, onClick: (Int) -> Unit) {
     Spacer(modifier = Modifier.width(8.dp))
     Divider(color = Color.Gray, thickness = 1.dp)
     Card(colors = CardDefaults.cardColors(Color.White)) {
@@ -314,7 +312,7 @@ fun MenuItem(itemRoom: MenuItemRoom, onClick: () -> Unit) {
                 .fillMaxWidth()
                 .padding(8.dp)
                 .clickable {
-                    onClick
+                    onClick(itemRoom.id)
                 },
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
