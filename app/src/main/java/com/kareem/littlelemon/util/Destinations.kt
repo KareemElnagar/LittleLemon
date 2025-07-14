@@ -5,22 +5,23 @@ interface Destinations {
 }
 
 object Home : Destinations {
-    override val route = "Home"
+//    override val route = "Home"
+    override val route = AppConstants.Navigation.HOME
 }
 
 object Profile : Destinations {
-    override val route = "Profile"
+    override val route = AppConstants.Navigation.PROFILE
 }
 
 object Onboarding : Destinations {
-    override val route = "Onboarding"
+    override val route = AppConstants.Navigation.ONBOARDING
 }
 object MenuScreen : Destinations {
-    override val route = "Menu"
+    override val route = AppConstants.Navigation.MENU
 }
 object Orders : Destinations {
-    override val route = "Orders"
+    override val route = AppConstants.Navigation.ORDERS
 }
 object DishDetails : Destinations {
-    override val route = "DishDetails"
+    override val route = AppConstants.Navigation.DISH_DETAILS_ROUTE
 }

@@ -1,4 +1,4 @@
-package com.kareem.littlelemon.screens
+package com.kareem.littlelemon.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,14 +15,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.kareem.littlelemon.MenuViewModel
+import com.kareem.littlelemon.viewmodel.MenuViewModel
+import com.kareem.littlelemon.data.MenuItemRoom
+import com.kareem.littlelemon.ui.components.CartItemCard
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun Orders(navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
-    val cartDishes = sharedMenuViewModel.getCartItems()
+    val cartItems = sharedMenuViewModel.cartItems
 
-    if (cartDishes.isEmpty()){
+    if (cartItems.isEmpty()){
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -36,19 +38,14 @@ fun Orders(navController: NavHostController, sharedMenuViewModel: MenuViewModel)
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(16.dp)
         ) {
-            items(cartDishes) { item ->
-                Card {
-                    Text(item.title)
-                    GlideImage(
-                        model = item.image,
-                        contentDescription = item.title
-                    )
-                    Text(item.price.toString())
-                }
+            items(cartItems) { cartItem ->
+                CartItemCard(
+                    cartItem = cartItem,
+                    onQuantityIncrease = { sharedMenuViewModel.updateCartItemQuantity(cartItem.menuItem.id, cartItem.quantity + 1) },
+                    onQuantityDecrease = { sharedMenuViewModel.updateCartItemQuantity(cartItem.menuItem.id, cartItem.quantity - 1) },
+                    onRemove = { sharedMenuViewModel.removeFromCart(cartItem.menuItem.id) }
+                )
             }
         }
     }
-
-
-
 }

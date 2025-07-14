@@ -14,7 +14,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.kareem.littlelemon.ui.components.BottomNavigation
 import com.kareem.littlelemon.ui.theme.LittleLemonTheme
+import com.kareem.littlelemon.viewmodel.MenuViewModel
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

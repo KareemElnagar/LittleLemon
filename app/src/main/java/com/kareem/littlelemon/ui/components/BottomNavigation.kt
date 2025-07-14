@@ -1,4 +1,4 @@
-package com.kareem.littlelemon
+package com.kareem.littlelemon.ui.components
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.kareem.littlelemon.viewmodel.MenuViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,8 +34,7 @@ fun BottomNavigation(navController: NavController, sharedMenuViewModel: MenuView
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
     }
-    val cartItems = sharedMenuViewModel.getCartItems()
-    val cartCount = cartItems.size
+    val cartCount = sharedMenuViewModel.cartItemCount
     
     val items = listOf(
         BottomNavigationItem(

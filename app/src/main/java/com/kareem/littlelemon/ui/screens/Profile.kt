@@ -1,4 +1,4 @@
-package com.kareem.littlelemon.screens
+package com.kareem.littlelemon.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.Image
@@ -30,17 +30,17 @@ import androidx.navigation.compose.rememberNavController
 import com.kareem.littlelemon.R
 import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
-import com.kareem.littlelemon.util.Constants
+import com.kareem.littlelemon.util.AppConstants
 import com.kareem.littlelemon.util.Onboarding
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Profile(navController: NavHostController) {
     val context = LocalContext.current
-    val sharedPreferences = context.getSharedPreferences(Constants.USER_KEY, Context.MODE_PRIVATE)
-    val firstName = sharedPreferences.getString(Constants.FIRST_NAME_KEY, "") ?: "Little"
-    val lastName = sharedPreferences.getString(Constants.LAST_NAME_KEY, "") ?: "Lemon"
-    val email = sharedPreferences.getString(Constants.EMAIL_KEY, "") ?: "LittleLemon@kareem.com"
+    val sharedPreferences = context.getSharedPreferences(AppConstants.SharedPrefs.USER_KEY, Context.MODE_PRIVATE)
+    val firstName = sharedPreferences.getString(AppConstants.SharedPrefs.FIRST_NAME_KEY, "") ?: "Little"
+    val lastName = sharedPreferences.getString(AppConstants.SharedPrefs.LAST_NAME_KEY, "") ?: "Lemon"
+    val email = sharedPreferences.getString(AppConstants.SharedPrefs.EMAIL_KEY, "") ?: "LittleLemon@kareem.com"
     Column(
         Modifier
             .fillMaxSize()

@@ -1,4 +1,4 @@
-package com.kareem.littlelemon.screens
+package com.kareem.littlelemon.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -33,7 +33,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.kareem.littlelemon.MenuViewModel
+import com.kareem.littlelemon.viewmodel.MenuViewModel
+import com.kareem.littlelemon.data.MenuItemRoom
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -133,8 +134,7 @@ fun DishDetails(navController: NavHostController, dishId:Int?, sharedMenuViewMod
                         onClick = { 
                             selectedDish.let { sharedMenuViewModel.addToCart(it) }
                             Log.e("item added to cart"," $selectedDish")
-                            Log.e("LOLL","${sharedMenuViewModel.getCartItems()}")
-
+                            Log.e("LOLL","${sharedMenuViewModel.cartItems}")
                         },
                         modifier = Modifier.padding(start = 16.dp)
                     ) {

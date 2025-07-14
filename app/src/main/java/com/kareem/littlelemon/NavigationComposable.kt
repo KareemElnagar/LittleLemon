@@ -5,19 +5,20 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.kareem.littlelemon.screens.DishDetails
-import com.kareem.littlelemon.screens.Home
-import com.kareem.littlelemon.screens.MenuScreen
-import com.kareem.littlelemon.screens.Onboarding
-import com.kareem.littlelemon.screens.Orders
-import com.kareem.littlelemon.screens.Profile
-import com.kareem.littlelemon.util.Constants
+import com.kareem.littlelemon.ui.screens.DishDetails
+import com.kareem.littlelemon.ui.screens.Home
+import com.kareem.littlelemon.ui.screens.MenuScreen
+import com.kareem.littlelemon.ui.screens.Onboarding
+import com.kareem.littlelemon.ui.screens.Orders
+import com.kareem.littlelemon.ui.screens.Profile
+import com.kareem.littlelemon.util.AppConstants
 import com.kareem.littlelemon.util.DishDetails
 import com.kareem.littlelemon.util.Home
 import com.kareem.littlelemon.util.MenuScreen
 import com.kareem.littlelemon.util.Onboarding
 import com.kareem.littlelemon.util.Orders
 import com.kareem.littlelemon.util.Profile
+import com.kareem.littlelemon.viewmodel.MenuViewModel
 
 @Composable
 fun NavigationComposable(context: Context, navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
@@ -47,8 +48,8 @@ fun NavigationComposable(context: Context, navController: NavHostController, sha
 }
 
 fun determineDestination(context: Context): String {
-    val sharedPreferences = context.getSharedPreferences(Constants.USER_KEY, Context.MODE_PRIVATE)
-    return if (sharedPreferences.getBoolean(Constants.REGISTER_KEY, false)) {
+    val sharedPreferences = context.getSharedPreferences(AppConstants.SharedPrefs.USER_KEY, Context.MODE_PRIVATE)
+    return if (sharedPreferences.getBoolean(AppConstants.SharedPrefs.REGISTER_KEY, false)) {
         Home.route
     } else {
         Onboarding.route

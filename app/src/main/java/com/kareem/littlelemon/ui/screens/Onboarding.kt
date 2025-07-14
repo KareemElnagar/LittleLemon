@@ -1,4 +1,4 @@
-package com.kareem.littlelemon.screens
+package com.kareem.littlelemon.ui.screens
 
 import android.content.Context
 import android.widget.Toast
@@ -47,7 +47,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kareem.littlelemon.R
 import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
-import com.kareem.littlelemon.util.Constants
+import com.kareem.littlelemon.util.AppConstants
 import com.kareem.littlelemon.util.Home
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
@@ -208,11 +208,11 @@ fun OnboardingPreview() {
 }
 
 fun sharedPreferences(context: Context, firstName: String, lastName: String, email: String) {
-    val sharedPreferences = context.getSharedPreferences(Constants.USER_KEY, Context.MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(AppConstants.SharedPrefs.USER_KEY, Context.MODE_PRIVATE)
     sharedPreferences.edit().apply {
-        putString(Constants.FIRST_NAME_KEY, firstName)
-        putString(Constants.LAST_NAME_KEY, lastName)
-        putString(Constants.EMAIL_KEY, email)
-        putBoolean(Constants.REGISTER_KEY, true)
+        putString(AppConstants.SharedPrefs.FIRST_NAME_KEY, firstName)
+        putString(AppConstants.SharedPrefs.LAST_NAME_KEY, lastName)
+        putString(AppConstants.SharedPrefs.EMAIL_KEY, email)
+        putBoolean(AppConstants.SharedPrefs.REGISTER_KEY, true)
     }.apply()
 }
