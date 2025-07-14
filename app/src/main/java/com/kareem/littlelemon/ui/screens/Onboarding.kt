@@ -1,4 +1,4 @@
-package com.kareem.littlelemon.screens
+package com.kareem.littlelemon.ui.screens
 
 import android.content.Context
 import android.widget.Toast
@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -28,11 +30,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,15 +47,16 @@ import androidx.navigation.compose.rememberNavController
 import com.kareem.littlelemon.R
 import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
-import com.kareem.littlelemon.util.Constants
+import com.kareem.littlelemon.util.AppConstants
 import com.kareem.littlelemon.util.Home
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun Onboarding(navController: NavHostController) {
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     val context = LocalContext.current
     LazyColumn(
@@ -128,13 +135,19 @@ fun Onboarding(navController: NavHostController) {
                     modifier = Modifier.fillMaxWidth(),
                     value = email,
                     onValueChange = { email = it },
-                    label = {
-                        Text(
-                            text = "Email",
-                        )
-                    },
-
-
+                    label = { Text("Email") },
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Email,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            // Example: Hide keyboard and perform action
+                            keyboardController?.hide()
+                            // Submit email or trigger validation
+                            println("Email entered: $email")
+                        }
+                    )
                 )
                 Spacer(modifier = Modifier.height(80.dp))
 
@@ -195,11 +208,11 @@ fun OnboardingPreview() {
 }
 
 fun sharedPreferences(context: Context, firstName: String, lastName: String, email: String) {
-    val sharedPreferences = context.getSharedPreferences(Constants.USER_KEY, Context.MODE_PRIVATE)
+    val sharedPreferences = context.getSharedPreferences(AppConstants.SharedPrefs.USER_KEY, Context.MODE_PRIVATE)
     sharedPreferences.edit().apply {
-        putString(Constants.FIRST_NAME_KEY, firstName)
-        putString(Constants.LAST_NAME_KEY, lastName)
-        putString(Constants.EMAIL_KEY, email)
-        putBoolean(Constants.REGISTER_KEY, true)
+        putString(AppConstants.SharedPrefs.FIRST_NAME_KEY, firstName)
+        putString(AppConstants.SharedPrefs.LAST_NAME_KEY, lastName)
+        putString(AppConstants.SharedPrefs.EMAIL_KEY, email)
+        putBoolean(AppConstants.SharedPrefs.REGISTER_KEY, true)
     }.apply()
 }

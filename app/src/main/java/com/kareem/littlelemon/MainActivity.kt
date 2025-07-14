@@ -12,8 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.kareem.littlelemon.ui.components.BottomNavigation
 import com.kareem.littlelemon.ui.theme.LittleLemonTheme
+import com.kareem.littlelemon.viewmodel.MenuViewModel
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -23,17 +26,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             LittleLemonTheme(darkTheme = false) {
                 val navController = rememberNavController()
+                val sharedMenuViewModel: MenuViewModel = viewModel()
+                
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Scaffold(bottomBar = {
-                        BottomNavigation(navController = navController)
+                        BottomNavigation(navController = navController, sharedMenuViewModel = sharedMenuViewModel)
                     }) {
                         Column(Modifier.padding(it)) {
                             NavigationComposable(
                                 context = applicationContext,
-                                navController = navController
+                                navController = navController,
+                                sharedMenuViewModel = sharedMenuViewModel
                             )
                         }
 

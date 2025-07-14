@@ -1,4 +1,4 @@
-package com.kareem.littlelemon.screens
+package com.kareem.littlelemon.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,19 +22,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.kareem.littlelemon.MenuItemRoom
-import com.kareem.littlelemon.MenuViewModel
+import com.kareem.littlelemon.viewmodel.MenuViewModel
+import com.kareem.littlelemon.data.MenuItemRoom
 import com.kareem.littlelemon.util.DishDetails
 
 @Composable
-fun MenuScreen(navController: NavHostController) {
-    val vm: MenuViewModel = viewModel()
-    val databaseMenuItem = vm.getAllDatabaseMenuItems().observeAsState(emptyList()).value
-    var dishState = vm.selectedDish
+fun MenuScreen(navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
+    val databaseMenuItem = sharedMenuViewModel.getAllDatabaseMenuItems().observeAsState(emptyList()).value
+    var dishState = sharedMenuViewModel.selectedDish
 
     LaunchedEffect(key1 = "Fetching_menu", block = {
         try {
-            vm.fetchMenuIfNeeded()
+            sharedMenuViewModel.fetchMenuIfNeeded()
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -42,10 +41,10 @@ fun MenuScreen(navController: NavHostController) {
     Column(Modifier.fillMaxSize()) {
 
         MenuGrid(
-            databaseMenuItem = databaseMenuItem) {
-            dishState = it
-            navController.navigate(DishDetails.route)
-
+            databaseMenuItem = databaseMenuItem
+        ) { dishId ->
+            dishState = dishId
+            navController.navigate("${DishDetails.route}/$dishId")
         }
     }
 
