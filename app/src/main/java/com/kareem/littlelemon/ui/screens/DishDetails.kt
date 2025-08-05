@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -28,13 +29,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.kareem.littlelemon.ui.theme.PrimaryGreen
+import com.kareem.littlelemon.ui.theme.PrimaryYellow
 import com.kareem.littlelemon.viewmodel.MenuViewModel
-import com.kareem.littlelemon.data.MenuItemRoom
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -136,7 +136,11 @@ fun DishDetails(navController: NavHostController, dishId:Int?, sharedMenuViewMod
                             Log.e("item added to cart"," $selectedDish")
                             Log.e("LOLL","${sharedMenuViewModel.cartItems}")
                         },
-                        modifier = Modifier.padding(start = 16.dp)
+                        modifier = Modifier.padding(start = 16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = PrimaryYellow,
+                            contentColor = PrimaryGreen
+                        )
                     ) {
                         Text(text = "Add to Cart")
                     }

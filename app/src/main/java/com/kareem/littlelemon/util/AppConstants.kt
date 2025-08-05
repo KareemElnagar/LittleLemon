@@ -46,6 +46,7 @@ object AppConstants {
     object Navigation {
         const val DISH_DETAILS_ROUTE = "DishDetails"
         const val ORDERS = "Orders"
+        const val CART = "Cart"
         const val MENU = "Menu"
         const val ONBOARDING = "Onboarding"
         const val PROFILE = "Profile"

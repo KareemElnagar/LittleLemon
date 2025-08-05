@@ -2,6 +2,7 @@ package com.kareem.littlelemon
 
 import android.content.Context
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,19 +13,34 @@ import com.kareem.littlelemon.ui.screens.Onboarding
 import com.kareem.littlelemon.ui.screens.Orders
 import com.kareem.littlelemon.ui.screens.Profile
 import com.kareem.littlelemon.util.AppConstants
+import com.kareem.littlelemon.util.Cart
 import com.kareem.littlelemon.util.DishDetails
 import com.kareem.littlelemon.util.Home
 import com.kareem.littlelemon.util.MenuScreen
 import com.kareem.littlelemon.util.Onboarding
-import com.kareem.littlelemon.util.Orders
 import com.kareem.littlelemon.util.Profile
+import com.kareem.littlelemon.util.Splash
 import com.kareem.littlelemon.viewmodel.MenuViewModel
 
 @Composable
 fun NavigationComposable(context: Context, navController: NavHostController, sharedMenuViewModel: MenuViewModel) {
     NavHost(navController = navController,
-        startDestination = determineDestination(context)
+//        startDestination = determineDestination(context)
+        startDestination = Splash.route
     ) {
+
+        composable(Splash.route) {
+            // Read SharedPreferences once and navigate
+            LaunchedEffect(Unit) {
+                val sharedPreferences = context.getSharedPreferences(AppConstants.SharedPrefs.USER_KEY, Context.MODE_PRIVATE)
+                val isRegistered = sharedPreferences.getBoolean(AppConstants.SharedPrefs.REGISTER_KEY, false)
+                val destination = if (isRegistered) Home.route else Onboarding.route
+                navController.navigate(destination) {
+                    popUpTo(Splash.route) { inclusive = true }
+                }
+            }
+        }
+
         composable(Home.route){
             Home(navController, sharedMenuViewModel)
         }
@@ -37,7 +53,7 @@ fun NavigationComposable(context: Context, navController: NavHostController, sha
         composable(MenuScreen.route){
             MenuScreen(navController, sharedMenuViewModel)
         }
-        composable(Orders.route){
+        composable(Cart.route){
             Orders(navController, sharedMenuViewModel)
         }
         composable("${DishDetails.route}/{dishId}") { backStackEntry ->

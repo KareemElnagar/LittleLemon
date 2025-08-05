@@ -12,7 +12,9 @@ object Home : Destinations {
 object Profile : Destinations {
     override val route = AppConstants.Navigation.PROFILE
 }
-
+object Splash : Destinations {
+    override val route = "splash"
+}
 object Onboarding : Destinations {
     override val route = AppConstants.Navigation.ONBOARDING
 }
@@ -24,4 +26,7 @@ object Orders : Destinations {
 }
 object DishDetails : Destinations {
     override val route = AppConstants.Navigation.DISH_DETAILS_ROUTE
+}
+object Cart : Destinations {
+    override val route = AppConstants.Navigation.CART
 }

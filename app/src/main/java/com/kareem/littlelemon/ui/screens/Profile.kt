@@ -32,6 +32,7 @@ import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
 import com.kareem.littlelemon.util.AppConstants
 import com.kareem.littlelemon.util.Onboarding
+import androidx.core.content.edit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -140,9 +141,9 @@ fun Profile(navController: NavHostController) {
             ) {
                 Button(
                     onClick = {
-                        val editor = sharedPreferences.edit()
-                        editor.clear()
-                        editor.apply()
+                        sharedPreferences.edit() {
+                            clear()
+                        }
                         navController.navigate(Onboarding.route)
                     },
                     modifier = Modifier.fillMaxWidth(),

@@ -11,11 +11,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.kareem.littlelemon.ui.components.BottomNavigation
 import com.kareem.littlelemon.ui.theme.LittleLemonTheme
+import com.kareem.littlelemon.util.Onboarding
+import com.kareem.littlelemon.util.askForPermission
+import com.kareem.littlelemon.util.createNotificationChannel
 import com.kareem.littlelemon.viewmodel.MenuViewModel
 
 class MainActivity : ComponentActivity() {
@@ -23,6 +28,8 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel(context = applicationContext)
+        askForPermission(applicationContext,this)
         setContent {
             LittleLemonTheme(darkTheme = false) {
                 val navController = rememberNavController()
@@ -32,9 +39,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Scaffold(bottomBar = {
-                        BottomNavigation(navController = navController, sharedMenuViewModel = sharedMenuViewModel)
-                    }) {
+                    Scaffold(
+                        bottomBar = {
+                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                            val currentRoute = navBackStackEntry?.destination?.route
+
+                            if (currentRoute != Onboarding.route) {
+                                BottomNavigation(navController = navController, sharedMenuViewModel = sharedMenuViewModel)
+                            }
+                        }
+                    ) {
                         Column(Modifier.padding(it)) {
                             NavigationComposable(
                                 context = applicationContext,
@@ -42,11 +56,12 @@ class MainActivity : ComponentActivity() {
                                 sharedMenuViewModel = sharedMenuViewModel
                             )
                         }
-
                     }
+
 
                 }
             }
         }
     }
 }
+

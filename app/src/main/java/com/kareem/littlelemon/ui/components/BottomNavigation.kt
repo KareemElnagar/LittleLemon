@@ -3,11 +3,11 @@ package com.kareem.littlelemon.ui.components
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.List
+import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Badge
@@ -45,12 +45,12 @@ fun BottomNavigation(navController: NavController, sharedMenuViewModel: MenuView
         ),
         BottomNavigationItem(
             title = "Menu",
-            selectedIcon = Icons.Filled.List,
-            unselectedIcon = Icons.Outlined.List,
+            selectedIcon = Icons.Filled.Menu,
+            unselectedIcon = Icons.Outlined.Menu,
             hasNews = false
         ),
         BottomNavigationItem(
-            title = "Orders",
+            title = "Cart",
             selectedIcon = Icons.Filled.ShoppingCart,
             unselectedIcon = Icons.Outlined.ShoppingCart,
             hasNews = cartCount > 0,
@@ -60,10 +60,10 @@ fun BottomNavigation(navController: NavController, sharedMenuViewModel: MenuView
             title = "Profile",
             selectedIcon = Icons.Filled.Person,
             unselectedIcon = Icons.Outlined.Person,
-            hasNews = true
+            hasNews = false
         )
     )
-    NavigationBar(modifier = Modifier.height(75.dp)) {
+    NavigationBar(modifier = Modifier.height(80.dp)) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = selectedItemIndex == index,

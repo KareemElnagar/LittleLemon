@@ -48,18 +48,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.kareem.littlelemon.viewmodel.MenuViewModel
-import com.kareem.littlelemon.data.MenuItemRoom
 import com.kareem.littlelemon.R
+import com.kareem.littlelemon.data.MenuItemRoom
 import com.kareem.littlelemon.ui.theme.HighlightGray
 import com.kareem.littlelemon.ui.theme.PrimaryGreen
 import com.kareem.littlelemon.ui.theme.PrimaryYellow
 import com.kareem.littlelemon.ui.theme.Shapes
 import com.kareem.littlelemon.util.Profile
+import com.kareem.littlelemon.viewmodel.MenuViewModel
 
 
 @Composable
@@ -258,8 +257,9 @@ fun MenuCategories(categories: Set<String>, categoryLambda: (selected: String) -
     Row(
         modifier = Modifier
             .horizontalScroll(rememberScrollState())
-            .fillMaxWidth(),
+            .fillMaxWidth().padding(4.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
+
     ) {
         MyCategoryButton(category = "All") {
             cat.value = it.lowercase()
