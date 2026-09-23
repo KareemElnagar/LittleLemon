@@ -82,7 +82,7 @@ class MenuViewModel : ViewModel() {
         return listOf("All", "Starters", "Mains", "Dessert", "Drinks")
     }
 
-    fun updateSelectedCategory(category: String) {
+    fun updateSelectedCategory        (category: String) {
         selectedCategory = category
     }
 }

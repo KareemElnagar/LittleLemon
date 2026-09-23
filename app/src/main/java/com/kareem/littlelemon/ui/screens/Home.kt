@@ -162,10 +162,10 @@ fun UpperPanel(searchPhrase: MutableState<String>) {
         TextField(
             value = searchPhrase.value,
             onValueChange = { searchPhrase.value = it },
-            placeholder = { Text(text = "Search Item") },
+            placeholder = { Text(text = "Search Item",Modifier.padding(all = 1.dp)) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp),
+                .padding(start = 8.dp, end = 8.dp,),
             shape = Shapes.large,
             leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "") },
 
